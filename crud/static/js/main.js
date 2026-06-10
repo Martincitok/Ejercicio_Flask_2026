@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     dark:  'https://bootswatch.com/5/darkly/bootstrap.min.css'
   };
 
-  
   // 1. Cargar la preferencia almacenada (por defecto 'light' según la consigna)
   const savedTheme = localStorage.getItem('theme') || 'light';
   themeLink.setAttribute('href', themes[savedTheme]);
