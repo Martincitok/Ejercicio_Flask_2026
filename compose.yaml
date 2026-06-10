@@ -1,0 +1,21 @@
+services:
+  crud:
+    build:
+      context: ./crud
+    container_name: crud
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - MYSQL_USER=${CRUD_USER}
+      - MYSQL_PASSWORD=${CRUD_PASS}
+      - MYSQL_DB=${CRUD_DB}
+      - MYSQL_HOST=${MARIADB_SERVER}
+      - FLASK_SECRET_KEY=${FLASK_SECRET_KEY}
+    networks:
+      - iot_network
+
+networks:
+  iot_network:
+    external: true
+    name: docker_iot_default
