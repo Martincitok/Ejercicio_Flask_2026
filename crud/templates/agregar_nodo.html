@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+{% block body %}
+  <h1>Agregar Nuevo Nodo</h1>
+  <form method="POST" action="{{ url_for('agregar_nodo') }}">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre del Nodo</label>
+      <input
+        type="text"
+        id="nombre"
+        name="nombre"
+        class="form-control"
+        placeholder="Ej: Sensor Temperatura"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="id_dispositivo" class="form-label">ID del Dispositivo</label>
+      <input
+        type="text"
+        id="id_dispositivo"
+        name="id_dispositivo"
+        class="form-control"
+        placeholder="Ej: A1B2C3D4"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="broker_id" class="form-label">Seleccionar Broker</label>
+      <select id="broker_id" name="broker_id" class="form-select" required>
+        <option value="" selected disabled>-- Elige un broker --</option>
+        {% for b in brokers %}
+          <option value="{{ b[0] }}">{{ b[1] }}</option>
+        {% endfor %}
+      </select>
+      {% if not brokers %}
+        <div class="form-text text-danger">
+          No tienes ningún broker. Primero <a href="{{ url_for('agregar_broker') }}">crea uno</a>.
+        </div>
+      {% endif %}
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+      <i class="bi bi-plus-circle"></i> Guardar Nodo
+    </button>
+    <a href="{{ url_for('index') }}" class="btn btn-secondary ms-2">
+      <i class="bi bi-arrow-left-circle"></i> Volver
+    </a>
+  </form>
+{% endblock %}

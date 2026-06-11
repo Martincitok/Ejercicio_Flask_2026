@@ -1,10 +1,44 @@
 {% extends "layout.html" %}
+
 {% block body %}
-    <form method="POST" action="{{url_for('login')}}">
-        <input autofocus name="usuario" placeholder="Usuario" type="text">
-        <input name="password" placeholder="Contraseña" type="password">
-        <button type="submit">Aceptar</button>
-        <a href="{{url_for('registrar')}}" style="float: right;">Registrarse</a>
-    </form>
- 
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="text-center mb-4">Iniciar Sesión</h1>
+          <form action="{{ url_for('login') }}" method="POST">
+            <div class="mb-3">
+              <label for="usuario" class="form-label">Usuario</label>
+              <input type="text" class="form-control" id="usuario" name="usuario" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-success">Iniciar Sesión</button>
+            </div>
+          </form>
+          <div class="text-center mt-3">
+            <p>¿No tienes una cuenta? <a href="{{ url_for('registrar') }}">Regístrate aquí</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Aplicar tema oscuro inmediatamente si está activo
+document.addEventListener('DOMContentLoaded', function() {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const storedTheme = localStorage.getItem('theme');
+    
+    if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.body.classList.add('dark-theme');
+    }
+});
+</script>
 {% endblock %}

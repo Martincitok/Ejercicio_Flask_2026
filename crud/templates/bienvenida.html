@@ -1,0 +1,104 @@
+{% extends 'layout.html' %}
+{% block body %}
+  <h1 class="mb-4">Bienvenido, {{ session.get("username") }}</h1>
+
+  <div class="mb-4">
+    <a href="{{ url_for('agregar_nodo') }}" class="btn btn-primary me-2">
+      <i class="bi bi-plus-circle"></i> Agregar Nodo
+    </a>
+    <a href="{{ url_for('listar_brokers') }}" class="btn btn-secondary">
+      <i class="bi bi-bookmarks"></i> Mis Brokers
+    </a>
+  </div>
+
+  <div class="card mb-4 border-secondary">
+    <div class="card-header bg-dark text-white fw-bold">
+      <i class="bi bi-cpu"></i> Selecciona el Nodo Destinatario
+    </div>
+    <div class="card-body">
+      <form method="POST" action="{{ url_for('seleccionar_dispositivo') }}">
+        {% if nodos %}
+          <div class="mb-3">
+            {% for nodo in nodos %}
+              <div class="form-check p-3 border rounded mb-2 bg-light d-flex align-items-center">
+                <input class="form-check-input ms-1 me-3" type="radio" name="id_dispositivo" id="node_{{ nodo[0] }}" value="{{ nodo[2] }}"
+                  {% if dispositivo_seleccionado == nodo[2] %} checked {% endif %}>
+                <label class="form-check-label w-100 style-label" for="node_{{ nodo[0] }}">
+                  <span class="fw-bold text-primary">{{ nodo[1] }}</span> 
+                  <small class="text-muted ms-3">(ID: {{ nodo[2] }} | Broker: {{ nodo[3] }})</small>
+                </label>
+              </div>
+            {% endfor %}
+          </div>
+          <button type="submit" class="btn btn-success">
+            <i class="bi bi-check-circle-fill"></i> Confirmar Selección
+          </button>
+        {% else %}
+          <p class="text-center my-2 text-muted">No tienes nodos cargados actualmente.</p>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+
+  {% if dispositivo_seleccionado %}
+    <div class="card border-warning mb-4">
+      <div class="card-body">
+        <h4>Dispositivo en control: <span class="badge bg-warning text-dark fs-5">{{ dispositivo_seleccionado }}</span></h4>
+        <div class="mt-3 control-buttons">
+          
+          <form method="POST" action="{{ url_for('flash_command') }}" class="d-inline">
+            <button type="submit" class="btn btn-danger text-white btn-lg-custom">
+              <i class="bi bi-lightning-charge-fill"></i> Ejecutar Destello
+            </button>
+          </form>
+
+          <form method="GET" action="{{ url_for('setpoint_command') }}" class="d-inline">
+            <div class="input-group input-group-lg-custom">
+              <input type="number" name="setpoint" placeholder="Valor Setpoint" class="form-control" required>
+              <button type="submit" class="btn btn-info text-white">
+                <i class="bi bi-sliders"></i> Cambiar Setpoint
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+<style>
+/* Estilos modernos y espaciado adaptado */
+.form-check:hover {
+    background-color: #f1f3f5 !important;
+    cursor: pointer;
+}
+.style-label {
+    cursor: pointer;
+}
+.control-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+}
+.input-group-lg-custom {
+    width: auto;
+    display: flex;
+}
+.input-group-lg-custom .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    height: 46px;
+    width: 160px;
+}
+.input-group-lg-custom .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    height: 46px;
+}
+.btn-lg-custom {
+    min-width: 180px;
+    height: 46px;
+}
+</style>
+{% endblock %}

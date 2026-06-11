@@ -12,6 +12,7 @@ services:
       - MYSQL_DB=${CRUD_DB}
       - MYSQL_HOST=${MARIADB_SERVER}
       - FLASK_SECRET_KEY=${FLASK_SECRET_KEY}
+      - FERNET_KEY=${FERNET_KEY}
     networks:
       - iot_network
 
