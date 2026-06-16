@@ -9,12 +9,22 @@ import certifi
 import asyncio
 from aiomqtt import Client, MqttError
 from dotenv import load_dotenv
+from datetime import timedelta
 
 # Cargar variables de entorno desde .env
 load_dotenv()
 
 app = Flask(__name__)
 app.config['APPLICATION_ROOT'] = '/tareaflask2'
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(seconds=300)
+
+app.config.update(
+    SESSION_COOKIE_PATH='/',
+    SESSION_COOKIE_SECURE=True,    # Indica que la cookie solo viaje por HTTPS
+    SESSION_COOKIE_HTTPONLY=True,  # Protege la cookie contra scripts maliciosos
+    SESSION_COOKIE_SAMESITE='Lax' # Permite mantener la sesión al navegar entre rutas
+)
+
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
 ssl_context = ssl.create_default_context(cafile=certifi.where())
@@ -254,7 +264,7 @@ def index():
 
 
 @app.route('/seleccionar_dispositivo', methods=['POST'])
-@require_login
+# @require_login
 def seleccionar_dispositivo():
     try:
         id_dispositivo = request.form.get('id_dispositivo')

@@ -1,444 +1,521 @@
-<!-- Estilos comunes para toda la aplicación -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-  /* Estilos para la barra de navegación */
-  .navbar {
-    background-color: #e9ecef !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
+  :root {
+    --bg-light: #f4f7f6;
+    --card-light: #ffffff;
+    --text-light: #1e293b;
+    --border-light: #e2e8f0;
+    
+    /* Paleta Dark Industrial (Predominante para IoT) */
+    --bg-dark: #0f1115;
+    --card-dark: #161920;
+    --text-dark: #f8fafc;
+    --border-dark: #262b35;
+    
+    /* Luces de Neón e Identidad */
+    --neon-cyan: #00f2fe;
+    --neon-blue: #4facfe;
+    --neon-green: #00e676;
+    --neon-purple: #7000ff;
   }
 
-  .navbar-brand {
-    color: #212529 !important;
-    font-weight: bold;
-    transition: color 0.3s ease;
+  /* Base del Sistema */
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-light);
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
-  .nav-item {
-    color: #212529 !important;
-    transition: color 0.3s ease;
-  }
-
-  /* Estilos para tarjetas */
-  .card {
-    background-color: #fff;
-    border: none;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-  }
-
-  .card-body {
-    padding: 2rem;
-  }
-
-  body.dark-theme .card {
-    background-color: #1e2124;
-    border-color: #141517;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-  }
-
-  body.dark-theme .card-body {
-    color: #f8f9fa;
-  }
-
-  /* Estilos para el botón de tema */
-  #themeToggle {
-    width: 38px !important;
-    height: 38px !important;
-    padding: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    border-radius: 8px !important;
-    background-color: transparent !important;
-    border: 2px solid #212529 !important;
-    color: #212529 !important;
-    transition: all 0.3s ease !important;
-    min-width: 38px !important;
-    max-width: 38px !important;
-  }
-
-  #themeToggle i {
-    margin: 0 !important;
-    font-size: 1.2rem !important;
-    line-height: 1 !important;
-    width: 1.2rem !important;
-    height: 1.2rem !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  #themeToggle:hover {
-    background-color: #212529 !important;
-    color: #e9ecef !important;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
-
-  #themeToggle:active {
-    transform: translateY(0);
-  }
-
-  body.dark-theme #themeToggle {
-    border-color: #f8f9fa !important;
-    color: #f8f9fa !important;
-  }
-
-  body.dark-theme #themeToggle:hover {
-    background-color: #f8f9fa !important;
-    color: #141517 !important;
-  }
-
-  .btn-outline-light {
-    color: #212529 !important;
-    border-color: #212529 !important;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn-outline-light:hover {
-    background-color: #212529 !important;
-    color: #e9ecef !important;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
-
-  .btn-outline-light:active {
-    transform: translateY(0);
-  }
-
-  /* Estilos para botones */
-  .btn {
-    border-radius: 8px;
-    padding: 0.5rem 1.2rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    height: 38px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 120px;
-  }
-
-  .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
-
-  .btn:active {
-    transform: translateY(0);
-  }
-
-  .btn-sm {
-    height: 32px;
-    padding: 0.25rem 0.75rem;
-    font-size: 0.875rem;
-    min-width: 100px;
-  }
-
-  .btn-success {
-    background: linear-gradient(45deg, #198754, #20c997);
-    border: none;
-  }
-
-  .btn-danger {
-    background: linear-gradient(45deg, #dc3545, #ff4d5a);
-    border: none;
-    color: #fff !important;
-  }
-
-  .btn-warning {
-    background: linear-gradient(45deg, #ffc107, #ffb300);
-    border: none;
-    color: #000;
-  }
-
-  .btn-info {
-    background: linear-gradient(45deg, #0dcaf0, #0bb6d4);
-    border: none;
-    color: #000;
-  }
-
-  /* Estilos para formularios */
-  .form-control {
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
-    border: 2px solid #e9ecef;
-    transition: all 0.3s ease;
-    height: 38px;
-  }
-
-  .form-control:focus {
-    border-color: #212529;
-    box-shadow: 0 0 0 0.2rem rgba(33, 37, 41, 0.15);
-  }
-
-  .form-label {
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    color: #495057;
-  }
-
-  /* Estilos para tablas */
-  .table {
-    margin-bottom: 0;
-  }
-
-  .table th {
-    font-weight: 600;
-    padding: 1rem;
-  }
-
-  .table td {
-    padding: 1rem;
-    vertical-align: middle;
-  }
-
-  .table-dark th {
-    background-color: #212529;
-    border-color: #212529;
-  }
-
-  /* Estilos para el tema oscuro */
   body.dark-theme {
-    background-color: #141517;
-    color: #f8f9fa;
+    background-color: var(--bg-dark);
+    color: var(--text-dark);
+  }
+
+  /* Código e IDs de Dispositivos */
+  small, .text-muted, code {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Colores adaptativos para textos secundarios */
+  .text-adaptive-title { color: var(--text-light); transition: color 0.3s ease; }
+  body.dark-theme .text-adaptive-title { color: #ffffff !important; }
+
+  .text-adaptive-muted { color: #64748b; transition: color 0.3s ease; }
+  body.dark-theme .text-adaptive-muted { color: #94a3b8 !important; }
+
+  .text-adaptive-label { color: #475569; transition: color 0.3s ease; }
+  body.dark-theme .text-adaptive-label { color: #cbd5e1 !important; }
+
+  /* Barra de Navegación Futurista */
+  .navbar {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
   }
 
   body.dark-theme .navbar {
-    background-color: #1e2124 !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    background-color: rgba(22, 25, 32, 0.8) !important;
+    border-bottom: 1px solid var(--border-dark);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
   }
 
-  body.dark-theme .navbar-brand {
-    color: #f8f9fa !important;
+  .navbar-brand {
+    font-weight: 700 !important;
+    letter-spacing: -0.5px;
+    background: linear-gradient(45deg, var(--neon-blue), var(--neon-cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
-  body.dark-theme .nav-item {
-    color: #f8f9fa !important;
+  /* Tarjetas y Paneles (Cards) */
+  .card {
+    background-color: var(--card-light);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
   }
 
-  body.dark-theme .btn-outline-light {
-    color: #f8f9fa !important;
-    border-color: #f8f9fa !important;
+  body.dark-theme .card {
+    background-color: var(--card-dark);
+    border: 1px solid var(--border-dark);
+    box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
   }
 
-  body.dark-theme .btn-outline-light:hover {
-    background-color: #f8f9fa !important;
-    color: #141517 !important;
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 35px -10px rgba(0,0,0,0.1);
+  }
+
+  body.dark-theme .card:hover {
+    border-color: rgba(79, 172, 254, 0.3);
+    box-shadow: 0 0 25px rgba(79, 172, 254, 0.1);
+  }
+
+  /* Campos de Texto Interactivos */
+  .form-control {
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-light);
+    background-color: transparent;
+    transition: all 0.3s ease;
+    height: 44px;
   }
 
   body.dark-theme .form-control {
-    background-color: #141517;
-    border-color: #2c3034;
-    color: #f8f9fa;
+    border-color: var(--border-dark);
+    color: var(--text-dark);
+    background-color: rgba(15, 17, 21, 0.5);
+  }
+
+  .form-control:focus {
+    background-color: #fff;
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 15px rgba(79, 172, 254, 0.25);
   }
 
   body.dark-theme .form-control:focus {
-    border-color: #495057;
-    box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
+    background-color: var(--bg-dark);
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
   }
 
-  body.dark-theme .form-label {
-    color: #adb5bd;
+  /* ==========================================================================
+     🤖 BOTONERA UNIFICADA (Idéntico tamaño, tipografía, bordes y comportamiento)
+     ========================================================================== */
+  .btn {
+    border-radius: 10px !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase;
+    font-size: 0.75rem !important;
+    
+    /* Dimensiones consistentes para toda la botonera */
+    height: 46px !important;
+    padding: 0 1.5rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    border: none !important;
+    cursor: pointer;
   }
 
-  /* Estilos para mensajes flash */
-  .flash-message {
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    animation: slideIn 0.5s ease-out;
+  .btn:hover { 
+    transform: translateY(-3px) !important; 
+    filter: brightness(1.1); 
+  }
+  
+  .btn:active { 
+    transform: translateY(-1px) !important; 
   }
 
-  .flash-message.fade-out {
-    animation: fadeOut 0.5s ease-out forwards;
+  /* 1. Agregar Nodo y Cambiar Setpoint -> Celeste Tecnológico Unificado */
+  .btn-primary, .input-group-lg-custom .btn {
+    background: linear-gradient(135deg, var(--neon-blue), #00d2ff) !important;
+    color: #0f1115 !important;
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.2) !important;
+  }
+  body.dark-theme .btn-primary, body.dark-theme .input-group-lg-custom .btn {
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.25) !important;
   }
 
-  @keyframes slideIn {
-    from {
-      transform: translateX(100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
+  /* 2. Confirmar Selección -> Verde Agua / Esmeralda Industrial */
+  .btn-success {
+    background: linear-gradient(135deg, #059669, #10b981) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2) !important;
+  }
+  body.dark-theme .btn-success {
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.25) !important;
   }
 
-  @keyframes fadeOut {
-    from {
-      transform: translateX(0);
-      opacity: 1;
-    }
-    to {
-      transform: translateX(100%);
-      opacity: 0;
-    }
+  /* 3. Ejecutar Destello -> Coral / Alerta sutil integrada */
+  .btn-danger {
+    background: linear-gradient(135deg, #f857a6, #ff5858) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(248, 87, 166, 0.2) !important;
+  }
+  body.dark-theme .btn-danger {
+    box-shadow: 0 0 15px rgba(248, 87, 166, 0.25) !important;
   }
 
-  /* Estilos para iconos */
-  .bi {
-    transition: transform 0.3s ease;
-    margin-right: 0.5rem;
+  .btn-warning { background: linear-gradient(135deg, #f1c40f, #f39c12); color: #000 !important; box-shadow: 0 4px 15px rgba(241, 196, 15, 0.2); }
+  
+  .btn-secondary {
+    background: rgba(148, 163, 184, 0.15);
+    color: var(--text-light) !important;
+    border: 1px solid var(--border-light);
+  }
+  body.dark-theme .btn-secondary {
+    background: rgba(38, 43, 53, 0.5);
+    color: var(--text-dark) !important;
+    border: 1px solid var(--border-dark);
   }
 
-  .btn:hover .bi {
-    transform: scale(1.1);
+  /* --- COMPONENTE PIXEL RADIO DE UIVERSE (Celeste ➡️ Verde Agua) --- */
+  .uiverse-pixel-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-radius: 12px;
+    padding: 0.5rem 0;
   }
 
-  /* Estilos para títulos */
-  h1, h2, h3, h4, h5, h6 {
+  .uiverse-pixel-radio {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    cursor: pointer;
+    font-size: 1.05rem;
+    position: relative;
+    padding: 0.75rem 1rem !important;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    width: 100%;
+    background-color: #f8fafc;
+    border: 1px solid var(--border-light);
+  }
+
+  body.dark-theme .uiverse-pixel-radio {
+    background-color: rgba(30, 41, 59, 0.25);
+    border: 1px solid var(--border-dark);
+  }
+
+  .uiverse-pixel-radio:hover {
+    transform: translateX(6px);
+    background-color: #f1f5f9;
+  }
+  body.dark-theme .uiverse-pixel-radio:hover {
+    background-color: rgba(30, 41, 59, 0.45);
+    border-color: #475569;
+  }
+
+  /* El botón de selección pixelado (Inicialmente Celeste) */
+  .uiverse-pixel-radio input[type="radio"] {
+    appearance: none;
+    width: 1.4em;
+    height: 1.4em;
+    background: var(--neon-blue); /* Celeste Corporativo Base */
+    border: none;
+    box-shadow:
+      0 0 0 0.1em #000,
+      0 0 0 0.2em #fff,
+      0 0 0 0.3em #000;
+    image-rendering: pixelated;
+    margin: 0;
+    transition: all 0.1s steps(1);
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  body.dark-theme .uiverse-pixel-radio input[type="radio"] {
+    box-shadow:
+      0 0 0 0.1em #000,
+      0 0 0 0.2em var(--card-dark),
+      0 0 0 0.3em #000;
+  }
+
+  /* Centro del botón de opción */
+  .uiverse-pixel-radio input[type="radio"]::before {
+    content: "";
+    display: block;
+    width: 0.6em;
+    height: 0.6em;
+    background: #fff;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.1s ease-out;
+  }
+
+  /* Cambios de estado cuando se selecciona un nodo (Verde Agua) */
+  .uiverse-pixel-radio input[type="radio"]:checked {
+    background: #00e676; /* Verde agua brillante */
+  }
+
+  .uiverse-pixel-radio input[type="radio"]:checked::before {
+    transform: translate(-50%, -50%) scale(1);
+    background: #000;
+  }
+
+  /* Resaltar la fila entera cuando el radio interno está seleccionado */
+  .uiverse-pixel-radio:has(input[type="radio"]:checked) {
+    border-color: #00e676 !important; /* Borde verde agua */
+    box-shadow: 0 0 15px rgba(0, 230, 118, 0.2);
+  }
+
+  .uiverse-pixel-radio input[type="radio"]:hover { background: #00d2ff; }
+  body.dark-theme .uiverse-pixel-radio input[type="radio"]:hover { background: var(--neon-cyan); }
+  .uiverse-pixel-radio input[type="radio"]:active { transform: translateY(0.125em); }
+
+  /* Estilos para textos de los nodos */
+  .text-node-title { color: var(--text-light); transition: color 0.2s ease; }
+  body.dark-theme .text-node-title { color: #e2e8f0; }
+  .uiverse-pixel-radio:has(input[type="radio"]:checked) .text-node-title { color: #00e676 !important; }
+
+  .text-node-meta { color: #64748b; }
+  body.dark-theme .text-node-meta { color: #94a3b8 !important; }
+
+  /* Tablas de Configuración (Brokers) */
+  .table-responsive { border-radius: 12px; overflow: hidden; }
+  .table-dark { --bs-table-bg: #111318 !important; }
+
+  /* Animación de Mensajes de Alerta (Flash) */
+  .flash-message { backdrop-filter: blur(10px); border-radius: 12px; border: none !important; color: #fff !important; }
+
+  /* Estilos para el Panel de Control de Setpoints */
+  .input-group-lg-custom .form-control { 
+    border-top-left-radius: 10px !important; 
+    border-bottom-left-radius: 10px !important; 
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    height: 46px !important; 
+  }
+  
+  .input-group-lg-custom .btn { 
+    border-top-right-radius: 10px !important; 
+    border-bottom-right-radius: 10px !important; 
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    height: 46px !important; 
+  }
+
+  /* Corrección de visibilidad para los textos de la barra de navegación */
+  .text-adaptive-nav {
+    color: #475569 !important;
+    transition: color 0.3s ease;
+  }
+  body.dark-theme .text-adaptive-nav {
+    color: #f1f5f9 !important;
+  }
+  .text-adaptive-nav:hover {
+    color: var(--neon-blue) !important;
+  }
+  body.dark-theme .text-adaptive-nav:hover {
+    color: var(--neon-cyan) !important;
+  }
+
+  /* Botón de Cerrar Sesión Estilizado */
+  .btn-danger-uiverse {
+    background: transparent !important;
+    border: 1px solid #ef4444 !important;
+    color: #ef4444 !important;
+    font-size: 0.75rem;
     font-weight: 600;
-    margin-bottom: 1.5rem;
-  }
-
-  body.dark-theme h1, 
-  body.dark-theme h2, 
-  body.dark-theme h3, 
-  body.dark-theme h4, 
-  body.dark-theme h5, 
-  body.dark-theme h6 {
-    color: #f8f9fa;
-  }
-
-  /* Estilos para alertas */
-  .alert {
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .alert-success {
-    background-color: #198754 !important;
-    border-color: #198754 !important;
-    color: #fff !important;
-  }
-
-  .alert-danger {
-    background-color: #dc3545 !important;
-    border-color: #dc3545 !important;
-    color: #fff !important;
-  }
-
-  body.dark-theme .alert {
-    background-color: #1e2124;
-    border-color: #141517;
-    color: #f8f9fa;
-  }
-
-  body.dark-theme .alert .btn-close {
-    filter: invert(1) grayscale(100%) brightness(200%);
-  }
-
-  /* Estilos para enlaces */
-  body.dark-theme a {
-    color: #adb5bd;
-  }
-
-  body.dark-theme a:hover {
-    color: #f8f9fa;
-  }
-
-  body.dark-theme .text-decoration-none {
-    color: #adb5bd !important;
-  }
-
-  body.dark-theme .text-decoration-none:hover {
-    color: #f8f9fa !important;
-  }
-
-  /* Estilos para textos y contenedores */
-  body.dark-theme .container {
-    color: #f8f9fa;
-  }
-
-  /* Estilos para dropdowns */
-  body.dark-theme .dropdown-menu {
-    background-color: #1e2124;
-    border-color: #141517;
-  }
-
-  body.dark-theme .dropdown-item {
-    color: #f8f9fa;
-  }
-
-  body.dark-theme .dropdown-item:hover {
-    background-color: #2c3034;
-    color: #f8f9fa;
-  }
-
-  body.dark-theme .dropdown-divider {
-    border-color: #2c3034;
-  }
-
-  /* Estilos para botones de control */
-  .control-buttons {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-  }
-
-  .input-group {
-    width: auto;
-    display: flex;
-    align-items: center;
-  }
-
-  .input-group .form-control {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    width: 150px;
-  }
-
-  .input-group .btn {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    margin-left: -1px;
-  }
-
-  /* Estilos para el contenedor principal */
-  .container {
-    max-width: 1200px;
+    border-radius: 10px;
+    height: 40px;
     padding: 0 1rem;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+  .btn-danger-uiverse:hover {
+    background: #ef4444 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+    transform: translateY(-2px);
   }
 
-  /* Estilos para el modo oscuro */
-  body.dark-theme .btn-warning {
-    background: linear-gradient(45deg, #ffc107, #ffb300);
-    color: #000;
+  /* --- COMPONENTE PREMIUM INTERACTIVO DE CAMBIO DE TEMA (UIVERSE) --- */
+  .theme-switch {
+    --toggle-size: 14px; 
+    --container-width: 5.625em;
+    --container-height: 2.5em;
+    --container-radius: 6.25em;
+    
+    --container-light-bg: #4facfe;
+    --container-night-bg: #161920;
+    --circle-container-diameter: 3.375em;
+    --sun-moon-diameter: 2.125em;
+    --sun-bg: #ffca28;
+    --moon-bg: #cbd5e1;
+    --spot-color: #94a3b8;
+    --circle-container-offset: calc((var(--circle-container-diameter) - var(--container-height)) / 2 * -1);
+    --stars-color: var(--neon-cyan);
+    --clouds-color: #f8fafc;
+    --back-clouds-color: #aacadf;
+    --transition: .5s cubic-bezier(0, -0.02, 0.4, 1.25);
+    --circle-transition: .3s cubic-bezier(0, -0.02, 0.35, 1.17);
+    
+    display: inline-block;
+    cursor: pointer;
   }
 
-  body.dark-theme .btn-warning:hover {
-    background: linear-gradient(45deg, #ffb300, #ffa000);
-    color: #000;
+  .theme-switch, .theme-switch .theme-switch__container, .theme-switch__circle-container, .theme-switch__sun-moon-container, .theme-switch__moon, .theme-switch__spot, .theme-switch__clouds, .theme-switch__stars-container {
+    font-size: var(--toggle-size) !important;
   }
 
-  body.dark-theme .btn-info {
-    background: linear-gradient(45deg, #0dcaf0, #0bb6d4);
-    color: #000;
+  .theme-switch__container {
+    width: var(--container-width);
+    height: var(--container-height);
+    background-color: var(--container-light-bg);
+    border-radius: var(--container-radius);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: var(--transition);
   }
 
-  body.dark-theme .btn-info:hover {
-    background: linear-gradient(45deg, #0bb6d4, #0aa2bd);
-    color: #000;
+  .theme-switch__container::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    box-shadow: 0em 0.05em 0.187em rgba(0, 0, 0, 0.15) inset;
+    border-radius: var(--container-radius);
   }
+
+  .theme-switch__checkbox {
+    display: none;
+  }
+
+  .theme-switch__circle-container {
+    width: var(--circle-container-diameter);
+    height: var(--circle-container-diameter);
+    background-color: rgba(255, 255, 255, 0.08);
+    position: absolute;
+    left: var(--circle-container-offset);
+    top: var(--circle-container-offset);
+    border-radius: var(--container-radius);
+    box-shadow: inset 0 0 0 3.375em rgba(255, 255, 255, 0.05), 0 0 0 0.625em rgba(255, 255, 255, 0.05);
+    display: flex;
+    transition: var(--circle-transition);
+    pointer-events: none;
+  }
+
+  .theme-switch__sun-moon-container {
+    pointer-events: auto;
+    position: relative;
+    z-index: 2;
+    width: var(--sun-moon-diameter);
+    height: var(--sun-moon-diameter);
+    margin: auto;
+    border-radius: var(--container-radius);
+    background-color: var(--sun-bg);
+    box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #a1872a inset;
+    filter: drop-shadow(0.062em 0.125em 0.125em rgba(0, 0, 0, 0.15));
+    overflow: hidden;
+    transition: var(--transition);
+  }
+
+  .theme-switch__moon {
+    transform: translateX(100%);
+    width: 100%;
+    height: 100%;
+    background-color: var(--moon-bg);
+    border-radius: inherit;
+    box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #969696 inset;
+    transition: var(--transition);
+    position: relative;
+  }
+
+  .theme-switch__spot {
+    position: absolute;
+    top: 0.75em;
+    left: 0.312em;
+    width: 0.75em;
+    height: 0.75em;
+    border-radius: var(--container-radius);
+    background-color: var(--spot-color);
+    box-shadow: 0em 0.0312em 0.062em rgba(0, 0, 0, 0.25) inset;
+  }
+
+  .theme-switch__spot:nth-of-type(2) { width: 0.375em; height: 0.375em; top: 0.937em; left: 1.375em; }
+  .theme-switch__spot:nth-last-of-type(3) { width: 0.25em; height: 0.25em; top: 0.312em; left: 0.812em; }
+
+  .theme-switch__clouds {
+    width: 1.25em;
+    height: 1.25em;
+    background-color: var(--clouds-color);
+    border-radius: var(--container-radius);
+    position: absolute;
+    bottom: -0.625em;
+    left: 0.312em;
+    box-shadow: 0.937em 0.312em var(--clouds-color), -0.312em -0.312em var(--back-clouds-color), 1.437em 0.375em var(--clouds-color), 0.5em -0.125em var(--back-clouds-color), 2.187em 0 var(--clouds-color), 1.25em -0.062em var(--back-clouds-color), 2.937em 0.312em var(--clouds-color), 2em -0.312em var(--back-clouds-color), 3.625em -0.062em var(--clouds-color), 2.625em 0em var(--back-clouds-color);
+    transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+  }
+
+  .theme-switch__stars-container {
+    position: absolute;
+    color: var(--stars-color);
+    top: -100%;
+    left: 0.312em;
+    width: 2.75em;
+    height: auto;
+    transition: var(--transition);
+  }
+
+  /* Acciones dinámicas de transiciones */
+  .theme-switch__checkbox:checked + .theme-switch__container { background-color: var(--container-night-bg); border: 1px solid var(--border-dark); }
+  .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container { left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter)); }
+  .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container:hover { left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter) - 0.187em) }
+  .theme-switch__circle-container:hover { left: calc(var(--circle-container-offset) + 0.187em); }
+  .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__moon { transform: translate(0); }
+  .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__clouds { bottom: -4.062em; }
+  .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__stars-container { top: 50%; transform: translateY(-50%); }
 </style>
 
 <script>
-// Auto-cerrar los mensajes después de 3 segundos
+// Desvanecimiento suave de mensajes de alerta
 document.addEventListener('DOMContentLoaded', function() {
     const flashMessages = document.querySelectorAll('.flash-message');
     flashMessages.forEach(function(message) {
         setTimeout(function() {
-            message.classList.add('fade-out');
-            setTimeout(function() {
-                message.remove();
-            }, 500);
-        }, 3000);
+            message.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+            message.style.opacity = "0";
+            message.style.transform = "translateX(50px)";
+            setTimeout(function() { message.remove(); }, 500);
+        }, 3500);
     });
 });
-</script> 
+</script>

@@ -1,27 +1,49 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card">
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 75vh;">
+  <div class="row justify-content-center w-100">
+    <div class="col-md-5 col-lg-4">
+      <div class="card p-3 border-0 login-card-glow">
         <div class="card-body">
-          <h1 class="text-center mb-4">Iniciar Sesión</h1>
-          <form action="{{ url_for('login') }}" method="POST">
-            <div class="mb-3">
-              <label for="usuario" class="form-label">Usuario</label>
-              <input type="text" class="form-control" id="usuario" name="usuario" required>
+          <!-- Icono de Seguridad IoT -->
+          <div class="text-center mb-4">
+            <div class="brand-icon-wrapper mb-3">
+              <i class="bi bi-shield-lock-fill fs-1 text-primary-neon"></i>
             </div>
+            <h2 class="fw-bold tracking-tight text-adaptive-title">Consola de Control</h2>
+            <p class="text-adaptive-muted small">Ingrese Usuario y Contraseña para acceder a la Consola de Control</p>
+          </div>
+
+          <!-- Formulario de Acceso -->
+          <form action="{{ url_for('login') }}" method="POST" autocomplete="off">
             <div class="mb-3">
-              <label for="password" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="password" name="password" required>
+              <label for="usuario" class="form-label small text-uppercase tracking-wider text-adaptive-label">Usuario</label>
+              <div class="input-group-custom">
+                <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Ej: admin" required>
+              </div>
             </div>
-            <div class="d-grid gap-2">
-              <button type="submit" class="btn btn-success">Iniciar Sesión</button>
+            
+            <div class="mb-4">
+              <label for="password" class="form-label small text-uppercase tracking-wider text-adaptive-label">Contraseña</label>
+              <div class="input-group-custom">
+                <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required>
+              </div>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-block py-2">
+                <i class="bi bi-box-arrow-in-right me-2"></i> Iniciar Sesión
+              </button>
             </div>
           </form>
-          <div class="text-center mt-3">
-            <p>¿No tienes una cuenta? <a href="{{ url_for('registrar') }}">Regístrate aquí</a></p>
+
+          <hr class="my-4 border-secondary opacity-25">
+
+          <div class="text-center">
+            <p class="small text-adaptive-muted mb-0">¿Primera vez en la consola? 
+              <a href="{{ url_for('registrar') }}" class="text-neon-cyan text-decoration-none fw-bold ms-1">Regístrate aquí</a>
+            </p>
           </div>
         </div>
       </div>
@@ -29,8 +51,88 @@
   </div>
 </div>
 
+<style>
+  /* Colores adaptativos Inteligentes (Corrige visibilidad en Oscuro/Claro) */
+  .text-adaptive-title {
+    color: var(--text-light);
+    transition: color 0.3s ease;
+  }
+  body.dark-theme .text-adaptive-title {
+    color: #ffffff !important;
+  }
+
+  .text-adaptive-muted {
+    color: #64748b;
+    transition: color 0.3s ease;
+  }
+  body.dark-theme .text-adaptive-muted {
+    color: #94a3b8 !important;
+  }
+
+  .text-adaptive-label {
+    color: #475569;
+    transition: color 0.3s ease;
+  }
+  body.dark-theme .text-adaptive-label {
+    color: #cbd5e1 !important;
+  }
+
+  /* Estilos de Efectos Visuales */
+  .text-primary-neon {
+    background: linear-gradient(45deg, #4facfe, #00f2fe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .text-neon-cyan {
+    color: #00f2fe !important;
+    transition: text-shadow 0.3s ease;
+  }
+  
+  .text-neon-cyan:hover {
+    text-shadow: 0 0 8px rgba(0, 242, 254, 0.6);
+  }
+
+  .brand-icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    background: rgba(79, 172, 254, 0.08);
+    border-radius: 50%;
+    border: 1px solid rgba(79, 172, 254, 0.2);
+  }
+
+  body.dark-theme .brand-icon-wrapper {
+    background: rgba(0, 242, 254, 0.05);
+    border: 1px solid rgba(0, 242, 254, 0.15);
+  }
+  
+  .tracking-wider {
+    letter-spacing: 0.8px;
+    font-size: 0.7rem !important;
+  }
+
+  /* Animación sutil de entrada */
+  .card {
+    animation: fadeInDown 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
 <script>
-// Aplicar tema oscuro inmediatamente si está activo
+// Mantener el estado del tema
 document.addEventListener('DOMContentLoaded', function() {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const storedTheme = localStorage.getItem('theme');

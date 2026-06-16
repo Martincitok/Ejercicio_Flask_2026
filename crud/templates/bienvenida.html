@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 {% block body %}
-  <h1 class="mb-4">Bienvenido, {{ session.get("username") }}</h1>
+  <h1 class="mb-4 text-adaptive-title">Bienvenido, {{ username }}</h1>
 
   <div class="mb-4">
     <a href="{{ url_for('agregar_nodo') }}" class="btn btn-primary me-2">
@@ -11,40 +11,47 @@
     </a>
   </div>
 
-  <div class="card mb-4 border-secondary">
-    <div class="card-header bg-dark text-white fw-bold">
-      <i class="bi bi-cpu"></i> Selecciona el Nodo Destinatario
-    </div>
-    <div class="card-body">
+  <div class="card mb-4 border-0 backend-card">
+    <div class="card-header bg-dark text-white fw-bold d-flex align-items-center rounded-top-3">
+      <i class="bi bi-cpu me-2 text-neon-cyan"></i> Selecciona el Nodo Destinatario
+  </div>
+    <div class="card-body p-4">
       <form method="POST" action="{{ url_for('seleccionar_dispositivo') }}">
         {% if nodos %}
-          <div class="mb-3">
+          
+          <div class="uiverse-pixel-radio-group mb-4">
             {% for nodo in nodos %}
-              <div class="form-check p-3 border rounded mb-2 bg-light d-flex align-items-center">
-                <input class="form-check-input ms-1 me-3" type="radio" name="id_dispositivo" id="node_{{ nodo[0] }}" value="{{ nodo[2] }}"
-                  {% if dispositivo_seleccionado == nodo[2] %} checked {% endif %}>
-                <label class="form-check-label w-100 style-label" for="node_{{ nodo[0] }}">
-                  <span class="fw-bold text-primary">{{ nodo[1] }}</span> 
-                  <small class="text-muted ms-3">(ID: {{ nodo[2] }} | Broker: {{ nodo[3] }})</small>
-                </label>
-              </div>
+              <label class="uiverse-pixel-radio">
+                <input type="radio" name="id_dispositivo" value="{{ nodo[2] }}"
+                  {% if dispositivo_seleccionado == nodo[2] %} checked {% endif %} />
+                
+                <span class="label-text">
+                  <span class="fw-bold text-node-title">{{ nodo[1] }}</span>
+                  <span class="text-node-meta small ms-3">
+                    <code>(ID: {{ nodo[2] }} | Broker: {{ nodo[3] }})</code>
+                  </span>
+                </span>
+              </label>
             {% endfor %}
           </div>
-          <button type="submit" class="btn btn-success">
+
+          <button type="submit" class="btn btn-success px-4 py-2">
             <i class="bi bi-check-circle-fill"></i> Confirmar Selección
           </button>
         {% else %}
-          <p class="text-center my-2 text-muted">No tienes nodos cargados actualmente.</p>
+          <p class="text-center my-3 text-node-meta">No tienes nodos cargados actualmente.</p>
         {% endif %}
       </form>
     </div>
   </div>
-
   {% if dispositivo_seleccionado %}
-    <div class="card border-warning mb-4">
-      <div class="card-body">
-        <h4>Dispositivo en control: <span class="badge bg-warning text-dark fs-5">{{ dispositivo_seleccionado }}</span></h4>
-        <div class="mt-3 control-buttons">
+    <div class="card border-0 backend-card mb-4 control-glow-card">
+      <div class="card-body p-4">
+        <h4 class="text-adaptive-title mb-3 d-flex align-items-center">
+          <i class="bi bi-terminal me-2 text-neon-blue"></i> Dispositivo en control: 
+          <span class="badge bg-warning text-dark ms-2 fs-6 px-3 py-2 fw-mono">{{ dispositivo_seleccionado }}</span>
+        </h4>
+        <div class="mt-4 control-buttons">
           
           <form method="POST" action="{{ url_for('flash_command') }}" class="d-inline">
             <button type="submit" class="btn btn-danger text-white btn-lg-custom">
@@ -67,38 +74,142 @@
   {% endif %}
 
 <style>
-/* Estilos modernos y espaciado adaptado */
-.form-check:hover {
-    background-color: #f1f3f5 !important;
-    cursor: pointer;
+/* --- ESTILOS INTERACTIVOS ESTILO UIVERSE --- */
+
+/* Forzar fuentes y consistencia de color de título */
+.text-adaptive-title {
+  color: var(--text-light);
 }
-.style-label {
-    cursor: pointer;
+body.dark-theme .text-adaptive-title {
+  color: #ffffff !important;
 }
+
+/* Ocultar el círculo nativo feo de Bootstrap */
+.radio-input-uiverse {
+  display: none;
+}
+
+/* Contenedor tipo Tarjeta de Uiverse */
+.radio-label-uiverse {
+  border: 2px solid var(--border-light);
+  border-radius: 12px;
+  background-color: #f8fafc;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  width: 100%;
+}
+
+body.dark-theme .radio-label-uiverse {
+  border: 2px solid var(--border-dark);
+  background-color: rgba(30, 41, 59, 0.2);
+}
+
+/* Indicador de estado circular falso */
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #cbd5e1;
+  transition: all 0.25s ease;
+}
+
+body.dark-theme .status-indicator {
+  background-color: #475569;
+}
+
+.text-node-title {
+  color: #334155;
+  transition: color 0.25s ease;
+}
+
+body.dark-theme .text-node-title {
+  color: #cbd5e1;
+}
+
+.text-node-meta {
+  color: #64748b;
+}
+
+body.dark-theme .text-node-meta {
+  color: #94a3b8 !important;
+}
+
+/* Efecto Hover sobre la fila */
+.radio-label-uiverse:hover {
+  transform: translateX(4px);
+  border-color: #94a3b8;
+}
+
+body.dark-theme .radio-label-uiverse:hover {
+  border-color: #475569;
+  background-color: rgba(30, 41, 59, 0.4);
+}
+
+/* --- ESTADO SELECCIONADO (Mágia de Uiverse CSS) --- */
+.radio-input-uiverse:checked + .radio-label-uiverse {
+  border-color: #2563eb;
+  background-color: rgba(37, 99, 235, 0.04);
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.08);
+}
+
+body.dark-theme .radio-input-uiverse:checked + .radio-label-uiverse {
+  border-color: var(--neon-cyan);
+  background-color: rgba(0, 242, 254, 0.03);
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.15);
+}
+
+.radio-input-uiverse:checked + .radio-label-uiverse .status-indicator {
+  background-color: #2563eb;
+  box-shadow: 0 0 8px #2563eb;
+}
+
+body.dark-theme .radio-input-uiverse:checked + .radio-label-uiverse .status-indicator {
+  background-color: var(--neon-cyan);
+  box-shadow: 0 0 12px var(--neon-cyan);
+}
+
+body.dark-theme .radio-input-uiverse:checked + .radio-label-uiverse .text-node-title {
+  color: var(--neon-cyan) !important;
+}
+
+/* Ajustes de las Tarjetas Base */
+.backend-card {
+  background-color: var(--card-light);
+}
+body.dark-theme .backend-card {
+  background-color: var(--card-dark);
+}
+
+.fw-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Estructura de Controladores de Botones */
 .control-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
 }
 .input-group-lg-custom {
-    width: auto;
-    display: flex;
+  width: auto;
+  display: flex;
 }
 .input-group-lg-custom .form-control {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    height: 46px;
-    width: 160px;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  height: 46px;
+  width: 160px;
 }
 .input-group-lg-custom .btn {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    height: 46px;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  height: 46px;
 }
 .btn-lg-custom {
-    min-width: 180px;
-    height: 46px;
+  min-width: 180px;
+  height: 46px;
 }
 </style>
 {% endblock %}
